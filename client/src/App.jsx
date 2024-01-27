@@ -7,6 +7,7 @@ import Projects from './Pages/Projects'
 import Dashboard from './Pages/Dashboard'
 import SignUp from './Pages/SignUp'
 import SignIn from './Pages/SignIn'
+import Header from './components/Header'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,6 +15,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+      <Header></Header>
         <Routes>
           <Route path='/' element={<Home></Home>}></Route>
           <Route path='/about' element={<About></About>}></Route>
