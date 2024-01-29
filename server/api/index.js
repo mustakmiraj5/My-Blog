@@ -26,3 +26,14 @@ app.use('/api/user', router_way1)
 // the route in router_way1 is /test. so full path will be /api/user/test
 
 app.use('/api/auth', signUp_auth)
+
+// Middleware
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal Server error!";
+    res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message
+    })
+})
