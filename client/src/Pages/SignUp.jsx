@@ -1,15 +1,64 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import '../../node_modules/react-toastify/dist/ReactToastify.css'
 
 const SignUp = () => {
     const [formData, setFormData] = useState({})
+    const[error, setError] = useState("");
+    const notify = () => toast.error('Sign Up Failed!', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark"
+      });
+    const navigate = useNavigate()
     const handleChange = (e) => {
-        setFormData({...formData, [e.target.id] : e.target.value})
+        setFormData({...formData, [e.target.id] : e.target.value.trim()})
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        try{
+          const res = await fetch('/api/auth/signup', {
+            method:'POST',
+            headers:{'Content-Type' : 'Application/json'},
+            body: JSON.stringify(formData)
+          });
+          const data = await res.json();
+          if(data.success === false){
+            setError(data.message)
+            notify()
+          }
+          // console.log(data)
+          if(res.ok) {
+            navigate('/signin')}
+          // }else{
+          //   notify()
+          // }
+        }catch(error){
+          setError(error.message)
+          notify()
+        }
     }
+    // console.log(error)
     return (
         <div>
+          <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="dark"
+/>
             <div className="hero min-h-screen bg-gray-900">
   <div className="hero-content flex-col lg:flex-row">
     <div className="text-center lg:text-left">
@@ -39,8 +88,9 @@ const SignUp = () => {
             <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
           </label>
         </div>
-        <div className="form-control mt-6">
+        <div className="form-control mt-2">
           <button className="btn btn-outline btn-warning text-white">Sign Up</button>
+          {error && <p className='text-red-600 pt-2 w-56'>{error}</p>}
         </div>
       </form>
     </div>

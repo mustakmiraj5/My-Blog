@@ -3,8 +3,13 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import router_way1 from '../api/routers/user.route.js'
 import signUp_auth from './routers/auth.router.js'
+import cors from 'cors'
 
 dotenv.config()
+
+// const express = require('express')
+// const cors =  require('cors')
+
 
 mongoose.connect(process.env.MONGODB).then(() => {
     console.log("MongoDB is connected!!!")
@@ -12,6 +17,8 @@ mongoose.connect(process.env.MONGODB).then(() => {
 
 const app = express()
 app.use(express.json())
+
+app.use(cors());
 
 app.listen(3000, () => {
     console.log('Server is running..!!!')
