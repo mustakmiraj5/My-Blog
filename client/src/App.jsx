@@ -8,6 +8,7 @@ import Dashboard from './Pages/Dashboard'
 import SignUp from './Pages/SignUp'
 import SignIn from './Pages/SignIn'
 import Header from './components/Header'
+import FooterComponent from './components/FooterComponent'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -25,6 +26,7 @@ function App() {
           <Route path='/signup' element={<SignUp></SignUp>}></Route>
           <Route path='/signin' element={<SignIn></SignIn>}></Route>
         </Routes>
+        <FooterComponent></FooterComponent>
       </BrowserRouter>
     </>
   )
